@@ -13,11 +13,18 @@ namespace Microsoft.AspNetCore.Mvc.Localization
         /// </summary>
         public static IHtmlContent Json(this LocalizedHtmlString htmlString)
         {
-            using var stringWriter = new StringWriter();
-            htmlString.WriteTo(stringWriter, HtmlEncoder.Default);
-            return new HtmlString(JsonConvert.SerializeObject(
-                stringWriter.ToString(),
-                new JsonSerializerSettings { StringEscapeHandling = StringEscapeHandling.EscapeHtml }));
+            if (htmlString != null)
+            {
+                using var stringWriter = new StringWriter();
+                htmlString.WriteTo(stringWriter, HtmlEncoder.Default);
+                return new HtmlString(JsonConvert.SerializeObject(
+                    stringWriter.ToString(),
+                    new JsonSerializerSettings { StringEscapeHandling = StringEscapeHandling.EscapeHtml }));
+            }
+            else
+            {
+                return new HtmlString("null");
+            }
         }
     }
 }
